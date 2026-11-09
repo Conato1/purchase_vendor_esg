@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <record id="esg_type_iso_14001" model="esg.certificate.type">
+            <field name="name">ISO 14001 - Environmental Management</field>
+            <field name="code">ISO14001</field>
+            <field name="score_weight">30.0</field>
+            <field name="is_mandatory" eval="True"/> <field name="sequence">1</field>
+            <field name="description">International standard that specifies requirements for an effective environmental management system (EMS).</field>
+        </record>
+
+        <record id="esg_type_iso_9001" model="esg.certificate.type">
+            <field name="name">ISO 9001 - Quality Management</field>
+            <field name="code">ISO9001</field>
+            <field name="score_weight">20.0</field>
+            <field name="is_mandatory" eval="False"/>
+            <field name="sequence">2</field>
+            <field name="description">Standard responsible for Quality Management System (QMS).</field>
+        </record>
+
+        <record id="esg_type_iso_45001" model="esg.certificate.type">
+            <field name="name">ISO 45001 - Occupational Health &amp; Safety</field>
+            <field name="code">ISO45001</field>
+            <field name="score_weight">20.0</field>
+            <field name="is_mandatory" eval="False"/>
+            <field name="sequence">3</field>
+        </record>
+
+        <record id="esg_type_sa8000" model="esg.certificate.type">
+            <field name="name">SA8000 - Social Accountability</field>
+            <field name="code">SA8000</field>
+            <field name="score_weight">15.0</field>
+            <field name="is_mandatory" eval="False"/>
+            <field name="sequence">4</field>
+            <field name="description">Social certification standard for factories and organizations.</field>
+        </record>
+
+        <record id="esg_type_green_label" model="esg.certificate.type">
+            <field name="name">Green Label / Eco Label</field>
+            <field name="code">ECO_LABEL</field>
+            <field name="score_weight">15.0</field>
+            <field name="is_mandatory" eval="False"/>
+            <field name="sequence">5</field>
+        </record>
+
+    </data>
+</odoo>

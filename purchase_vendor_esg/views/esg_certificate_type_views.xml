@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_esg_certificate_type_search" model="ir.ui.view">
+        <field name="name">esg.certificate.type.search</field>
+        <field name="model">esg.certificate.type</field>
+        <field name="arch" type="xml">
+            <search string="Search Certificate Types">
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Mandatory" name="mandatory" domain="[('is_mandatory', '=', True)]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_esg_certificate_type_tree" model="ir.ui.view">
+        <field name="name">esg.certificate.type.tree</field>
+        <field name="model">esg.certificate.type</field>
+        <field name="arch" type="xml">
+            <list string="Certificate Types" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="score_weight" sum="Total Weight"/>
+                <field name="is_mandatory" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_esg_certificate_type_form" model="ir.ui.view">
+        <field name="name">esg.certificate.type.form</field>
+        <field name="model">esg.certificate.type</field>
+        <field name="arch" type="xml">
+            <form string="Certificate Type">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. ISO 14001"/></h1>
+                    </div>
+                    <group>
+                        <group string="Basic Information">
+                            <field name="code"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group string="Scoring &amp; Compliance">
+                            <field name="score_weight"/>
+                            <field name="is_mandatory" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" placeholder="Describe the requirements for this certificate..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_esg_certificate_type" model="ir.actions.act_window">
+        <field name="name">Certificate Types</field>
+        <field name="res_model">esg.certificate.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Define ESG Certificate Types
+          </p>
+          <p>
+            Create standard certificates like ISO 9001, ISO 14001, or Green Label.
+            Set weights for scoring and mark essential certificates as mandatory.
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_esg_certificate_type"
+              name="ESG Certificate Types"
+              parent="purchase.menu_purchase_config"
+              action="action_esg_certificate_type"
+              sequence="50"/>
+
+</odoo>

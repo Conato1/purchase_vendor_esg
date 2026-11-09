@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="purchase_order_form_esg_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.esg.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-danger" role="alert" invisible="partner_esg_compliant or not partner_id or ignore_esg_check">
+                    <div class="d-flex align-items-center">
+                        <i class="fa fa-ban fa-2x me-3" title="Blocked"/>
+                        <div>
+                            <strong>Compliance Block Active!</strong><br/>
+                            This vendor fails mandatory ESG requirements. You cannot confirm this PO.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning" role="alert" invisible="not ignore_esg_check">
+                    <div class="d-flex align-items-center">
+                        <i class="fa fa-exclamation-triangle fa-2x me-3" title="Warning"/>
+                        <div>
+                            <strong>ESG Override Active</strong><br/>
+                            You are bypassing the safety checks for this vendor. This action is logged.
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <label for="partner_esg_score" string="ESG Rating"/>
+                <div class="o_row">
+                    <field name="partner_esg_score" widget="progressbar" options="{'max_value': 100}"/>
+                    
+                    <span class="ms-2 badge text-bg-success" invisible="not partner_esg_compliant">Compliant</span>
+                    <span class="ms-2 badge text-bg-danger" invisible="partner_esg_compliant">Non-Compliant</span>
+                </div>
+                
+                <field name="ignore_esg_check" widget="boolean_toggle" class="oe_inline" groups="purchase.group_purchase_manager"/>
+                <label for="ignore_esg_check" string="Force/Override Compliance" class="text-muted" groups="purchase.group_purchase_manager"/>
+
+                <field name="partner_esg_compliant" invisible="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

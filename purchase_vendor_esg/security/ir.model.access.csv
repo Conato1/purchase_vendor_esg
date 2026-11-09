@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_esg_certificate_type_manager,esg.certificate.type manager,model_esg_certificate_type,purchase_vendor_esg.group_esg_manager,1,1,1,1
+access_esg_certificate_type_user,esg.certificate.type user,model_esg_certificate_type,base.group_user,1,0,0,0
+access_esg_certificate_manager,esg.certificate manager,model_esg_certificate,purchase_vendor_esg.group_esg_manager,1,1,1,1
+access_esg_certificate_purchase,esg.certificate purchase,model_esg_certificate,purchase.group_purchase_user,1,1,1,0

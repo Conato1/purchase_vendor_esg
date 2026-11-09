@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_esg" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.esg</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90"/>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='purchase_setting_container']" position="after">
+                
+                <h2>ESG &amp; Sustainability</h2>
+                <div class="row mt16 o_settings_container">
+                    
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="group_esg_validation"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="group_esg_validation"/>
+                            <div class="text-muted">
+                                Enable blocking Purchase Orders for non-compliant vendors globally.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="esg_auto_survey"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="esg_auto_survey"/>
+                            <div class="text-muted">
+                                Automatically send ESG Surveys to active vendors once a year.
+                            </div>
+                            <div class="content-group" invisible="not esg_auto_survey">
+                                <div class="row mt16">
+                                    <label for="esg_survey_month" class="col-lg-3 o_light_label"/>
+                                    <field name="esg_survey_month" class="col-lg-9"/>
+                                </div>
+                                <div class="row">
+                                    <label for="esg_survey_day" class="col-lg-3 o_light_label"/>
+                                    <field name="esg_survey_day" class="col-lg-9"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="esg_default_survey_id" class="col-lg-3 o_light_label"/>
+                                    <field name="esg_default_survey_id" class="col-lg-9"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

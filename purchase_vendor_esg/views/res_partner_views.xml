@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_partner_form_esg_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.esg.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//sheet" position="before">
+                <widget name="web_ribbon" title="ESG Compliant" bg_color="bg-success" invisible="not is_esg_compliant"/>
+                <widget name="web_ribbon" title="Non-Compliant" bg_color="bg-danger" invisible="is_esg_compliant"/>
+            </xpath>
+
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="esg_score" widget="progressbar"/>
+                <field name="is_esg_compliant" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="ESG &amp; Sustainability" name="esg_compliance">
+                    <group>
+                        <group string="Scoring &amp; Indicators">
+                            <field name="esg_score" widget="progressbar" options="{'current_value': 'esg_score', 'max_value': 100, 'editable': false}"/>
+                            <field name="is_esg_compliant" widget="boolean_toggle"/>
+                        </group>
+                        <group string="Active Audit (Survey)">
+                            <label for="audit_survey_id" string="Audit Questionnaire"/>
+                            <div class="o_row">
+                                <field name="audit_survey_id" placeholder="Select Survey..."/>
+                                <button name="action_send_esg_survey" type="object" string="Send Now" class="btn-primary btn-sm" icon="fa-paper-plane" invisible="not audit_survey_id"/>
+                            </div>
+                            <field name="audit_last_date"/>
+                            <field name="audit_score" widget="progressbar" options="{'max_value': 100}"/>
+                            <div class="text-muted" invisible="not audit_last_date">
+                                Note: Score below 50% fails compliance.
+                            </div>
+                        </group>
+                    </group>
+
+                    <separator string="Certificates"/>
+                    <field name="esg_certificate_ids" context="{'default_partner_id': id}">
+                        <list string="Certificates" editable="bottom" decoration-danger="state == 'expired'" decoration-warning="state == 'expiring'" decoration-success="state == 'valid'">
+                            <field name="certificate_type_id" options="{'no_create': True}"/>
+                            <field name="certificate_reference"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="days_to_expire" optional="show"/>
+                            <field name="certificate_file" filename="filename" widget="binary"/>
+                            <field name="filename" column_invisible="True"/>
+                            <field name="state" widget="badge" decoration-danger="state == 'expired'" decoration-warning="state == 'expiring'" decoration-success="state == 'valid'"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_res_partner_kanban_esg_inherit" model="ir.ui.view">
+        <field name="name">res.partner.kanban.esg.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//templates" position="before">
+                <field name="is_esg_compliant"/>
+                <field name="esg_score"/>
+                <field name="audit_score"/>
+            </xpath>
+
+            <xpath expr="//field[@name='display_name']" position="after">
+                <div class="d-block mt-1">
+                    <span t-if="record.is_esg_compliant.raw_value" class="badge text-bg-success" style="font-size: 0.8em;">
+                        <i class="fa fa-leaf"/> ESG Safe
+                    </span>
+                    <span t-if="!record.is_esg_compliant.raw_value" class="badge text-bg-danger" style="font-size: 0.8em;">
+                        <i class="fa fa-exclamation-triangle"/> Risk
+                    </span>
+                    <span class="badge text-bg-light border" style="font-size: 0.8em; margin-left: 4px;">
+                        Score: <field name="esg_score"/>
+                    </span>
+                    <span t-if="record.audit_score.raw_value &gt; 0" class="badge text-bg-info border" style="font-size: 0.7em; margin-left: 2px;">
+                        Audit: <field name="audit_score"/>%
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
